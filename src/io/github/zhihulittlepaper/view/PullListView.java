@@ -81,7 +81,7 @@ public class PullListView extends ListView implements AbsListView.OnScrollListen
 			if(isRefreshable) {
 				downY = (int) ev.getY();
 				currentRefreshState = STATE_PULL;
-				tvRefreshState.setText("下拉刷新");
+				tvRefreshState.setText("涓嬫媺鍒锋柊");
 			}
 			if(isLoadable) {
 				downY = (int) ev.getY();
@@ -92,26 +92,19 @@ public class PullListView extends ListView implements AbsListView.OnScrollListen
 				int moveY = (int) ev.getY();
 				if(moveY - downY >= headerHeight) {
 					currentRefreshState = STATE_RELEASE;
-					tvRefreshState.setText("松开刷新");
+					tvRefreshState.setText("鏉惧紑鍒锋柊");
 					vHeader.setPadding(0, 0, 0, 0);
 				}
 				else {
 					vHeader.setPadding(0, moveY - downY - headerHeight, 0, 0);
 					currentRefreshState = STATE_PULL;
-					tvRefreshState.setText("下拉刷新");
-				}
-			}
-			if(isLoadable) {
-				int moveY = (int) ev.getY();
-				if(downY - moveY > 60 && moreDataLoader != null) {
-					moreDataLoader.loadMore();
-					isLoadable = false;
+					tvRefreshState.setText("涓嬫媺鍒锋柊");
 				}
 			}
 			break;
 		case MotionEvent.ACTION_UP:
 			if(currentRefreshState == STATE_RELEASE) {
-				tvRefreshState.setText("正在刷新");
+				tvRefreshState.setText("姝ｅ湪鍒锋柊");
 				currentRefreshState = STATE_REFRESHING;
 
 				if(dataRefresher != null) {
@@ -125,6 +118,14 @@ public class PullListView extends ListView implements AbsListView.OnScrollListen
 			else if(currentRefreshState == STATE_PULL){
 				currentRefreshState = STATE_DONE;
 				vHeader.setPadding(0, -headerHeight, 0, 0);
+			}
+			
+			if(isLoadable) {
+				int moveY = (int) ev.getY();
+				if(downY - moveY > 60 && moreDataLoader != null) {
+					moreDataLoader.loadMore();
+					isLoadable = false;
+				}
 			}
 			break;
 		}
